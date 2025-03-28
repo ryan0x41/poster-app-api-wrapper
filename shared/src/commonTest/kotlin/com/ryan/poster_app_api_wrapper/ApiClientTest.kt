@@ -7,7 +7,6 @@ import kotlin.test.assertNotNull
 class ApiClientTest {
     private val apiClient = ApiClient();
 
-    @Test
     fun testAnalyticsData() {
         runBlocking {
             val data = apiClient.getAnalyticsData()
@@ -24,7 +23,6 @@ class ApiClientTest {
         }
     }
 
-    @Test
     fun testLogin() {
         runBlocking {
             val data = apiClient.login("test2", "Hello@123")
@@ -34,13 +32,26 @@ class ApiClientTest {
         }
     }
 
-    @Test
     fun testRegister() {
         runBlocking {
-            val data = apiClient.register("newaccount3213213", "email@something.com", "Hello@123")
+            val data = apiClient.register("newaccount32131213", "emails@something.com", "Hello@123")
 
             println("Message: ${data.message}")
             println("User: ${data.user}")
         }
+    }
+    
+    fun testGetConversations() {
+        runBlocking{
+            val data = apiClient.getConversations()
+            println("data: ${data}")
+        }
+    }
+
+    @Test
+    fun testAll() {
+        testAnalyticsData()
+        testLogin()
+        testGetConversations()
     }
 }
