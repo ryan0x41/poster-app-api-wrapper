@@ -1,10 +1,16 @@
 package com.ryan.poster_app_api_wrapper
 
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ConversationResponse(private val jsonData: JsonElement) {
-    val data: JsonElement
-        get() = jsonData
-}
+data class ConversationResponse(
+    val message: String,
+    val conversations: List<PosterConversation> = emptyList()
+)
+
+@Serializable
+data class PosterConversation(
+    val conversationId: String,
+    val participants: List<String>,
+    val createdAt: String
+)

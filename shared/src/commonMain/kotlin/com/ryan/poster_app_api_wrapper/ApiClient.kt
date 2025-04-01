@@ -76,6 +76,18 @@ class ApiClient(private var authToken: String? = null) {
         }.body()
     }
 
+    suspend fun auth(): AuthResponse {
+        return client.get("https://api.poster-social.com/user/auth").body()
+    }
+
+    suspend fun getUserProfileById(userId: String): UserProfileResponse {
+        return client.get("https://api.poster-social.com/user/profile/${userId}").body()
+    }
+
+    suspend fun getUserProfile(username: String): UserProfileResponse {
+        return client.get("https://api.poster-social.com/user/${username}").body()
+    }
+
     // SECTION: chat
 
     suspend fun startConversation(participants: List<String>): ConversationResponse {

@@ -5,7 +5,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 
 class ApiClientTest {
-    private val apiClient = ApiClient();
+    private val apiClient = ApiClient()
 
     fun testAnalyticsData() {
         runBlocking {
@@ -23,12 +23,15 @@ class ApiClientTest {
         }
     }
 
-    fun testLogin() {
-        runBlocking {
-            val data = apiClient.login("test2", "Hello@123")
+    fun testLogin(username: String, password: String): LoginResponse {
+        return runBlocking {
+            apiClient.login(username, password)
+        }
+    }
 
-            println("Message: ${data.message}")
-            println("Token: ${data.token}")
+    fun testAuth(): AuthResponse {
+        return runBlocking {
+            apiClient.auth()
         }
     }
 
@@ -40,18 +43,51 @@ class ApiClientTest {
             println("User: ${data.user}")
         }
     }
-    
+
+    fun testStartConversation(participantIds: List<String>) {
+        runBlocking {
+            val data = apiClient.startConversation(participantIds)
+            println("startConversation message: ${data.message}")
+        }
+    }
+
     fun testGetConversations() {
-        runBlocking{
+        runBlocking {
             val data = apiClient.getConversations()
-            println("data: ${data}")
+            println("data: $data")
+        }
+    }
+
+    fun testGetUserProfileById(userId: String) {
+        runBlocking {
+            val data = apiClient.getUserProfileById(userId)
+            println("data: $data")
+        }
+    }
+
+    fun testGetUserProfileByUsername(username: String): UserProfileResponse {
+        return runBlocking {
+            apiClient.getUserProfileById(username)
         }
     }
 
     @Test
     fun testAll() {
-        testAnalyticsData()
-        testLogin()
-        testGetConversations()
+        // Step 1: login as test2
+        val loginResponse = testLogin("test2", "Hello@123")
+
+        // Step 2: authenticate to get current user ID
+        val authResponse = testAuth()
+        val myUserId = authResponse.user.id
+        println("Authenticated user ID: $myUserId")
+
+        // Step 3: get user profile of 0xryan
+        val ryanProfile = testGetUserProfileByUsername("0xryan")
+        val ryanUserId = ryanProfile.user.id
+        println("0xryan's user ID: $ryanUserId")
+
+        // Step 4: start conversation with 0xryan
+        val participantIds = listOf(ryanUserId)
+        testStartConversation(participantIds)
     }
 }
