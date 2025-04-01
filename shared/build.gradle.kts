@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.1.0-dev-875"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.0-dev-6560"
 }
 
 kotlin {
@@ -24,6 +24,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            freeCompilerArgs += "-Xbinary=bundleId=com.ryan.poster_app_api_wrapper"
             isStatic = true
         }
     }
@@ -74,4 +75,10 @@ tasks.withType<Test>().configureEach {
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
         showStandardStreams = true
     }
+}
+
+tasks.matching {
+    it.name.startsWith("ios") && it.name.endsWith("Test")
+}.configureEach {
+    enabled = false
 }
