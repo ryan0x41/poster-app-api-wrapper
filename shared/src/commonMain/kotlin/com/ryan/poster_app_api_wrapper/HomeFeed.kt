@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeFeed(
     val message: String,
-    val posts: List<FullPost>,
+    val posts: List<HomeFeedPost>,
     val page: Int
 )
 
