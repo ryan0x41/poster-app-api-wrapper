@@ -15,7 +15,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ErrorResponse(val error: String)
 
-open class ApiClient(private var authToken: String? = null) {
+open class ApiClient(private var authToken: String? = null, private var authenticatedUser: AuthenticatedUser? = null) {
     private val client = HttpClient(httpClientEngineFactory()) {
         install(ContentNegotiation) {
             json(Json {
@@ -77,7 +77,13 @@ open class ApiClient(private var authToken: String? = null) {
     }
 
     suspend fun auth(): AuthResponse {
-        return client.get("https://api.poster-social.com/user/auth").body()
+        val response: AuthResponse = client.get("https://api.poster-social.com/user/auth").body()
+        authenticatedUser = response.user
+        return response
+    }
+
+    suspend fun getAuthenticatedUser(): AuthenticatedUser? {
+        return authenticatedUser
     }
 
     suspend fun getUserProfileById(userId: String): UserProfileResponse {
@@ -118,5 +124,11 @@ open class ApiClient(private var authToken: String? = null) {
 
     suspend fun getMessageThread(conversationId: String): MessageThreadResponse {
         return client.get("https://api.poster-social.com/message/thread/$conversationId").body()
+    }
+
+    // SECTION: posts
+
+    suspend fun getHomeFeed(): HomeFeed {
+        return client.get("https://api.poster-social.com/user/feed/1").body()
     }
 }
