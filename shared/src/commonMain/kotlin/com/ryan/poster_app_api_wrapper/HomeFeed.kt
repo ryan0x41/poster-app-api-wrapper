@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeFeed(
     val message: String,
-    val posts: List<Post>,
+    val posts: List<FullPost>,
     val page: Int
 )
 
 @Serializable
-data class Post(
+data class HomeFeedPost(
     @SerialName("postId")
     val postId: String,
     val title: String,
@@ -21,25 +21,25 @@ data class Post(
     val likes: Int,
     val likedBy: List<String>,
     val images: List<String>,
-    val userProfile: UserProfile
+    val userProfile: FullUserProfile
 )
 
 @Serializable
-data class UserProfile(
+data class HomeFeedUserProfile(
     val id: String,
     val username: String,
     val email: String,
     val accountCreation: Long,
-    val followers: List<UserSummary> = emptyList(),
-    val following: List<UserSummary> = emptyList(),
-    val posts: List<PostSummary> = emptyList(),
-    val listeningHistory: List<ListeningHistoryItem> = emptyList(),
-    val favouriteArtists: List<Artist> = emptyList(),
-    val currentlyPlaying: CurrentlyPlaying? = null
+    val followers: List<HomeFeedUserSummary> = emptyList(),
+    val following: List<HomeFeedUserSummary> = emptyList(),
+    val posts: List<HomeFeedPostSummary> = emptyList(),
+    val listeningHistory: List<FullListeningHistoryItem> = emptyList(),
+    val favouriteArtists: List<HomeFeedArtist> = emptyList(),
+    val currentlyPlaying: FullCurrentlyPlaying? = null
 )
 
 @Serializable
-data class UserSummary(
+data class HomeFeedUserSummary(
     val id: String,
     val username: String,
     val accountCreation: Long,
@@ -48,7 +48,7 @@ data class UserSummary(
 )
 
 @Serializable
-data class PostSummary(
+data class HomeFeedPostSummary(
     @SerialName("postId")
     val postId: String,
     val title: String,
@@ -61,14 +61,14 @@ data class PostSummary(
 )
 
 @Serializable
-data class ListeningHistoryItem(
+data class HomeFeedListeningHistoryItem(
     val albumCover: String,
     val artistName: String,
     val songName: String
 )
 
 @Serializable
-data class Artist(
+data class HomeFeedArtist(
     val imageUrl: String,
     val name: String
 )

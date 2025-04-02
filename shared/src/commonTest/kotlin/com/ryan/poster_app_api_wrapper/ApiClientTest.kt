@@ -65,7 +65,7 @@ class ApiClientTest {
         }
     }
 
-    fun testGetUserProfileByUsername(username: String): UserProfileResponse {
+    fun testGetUserProfileByUsername(username: String): FullUserProfileResponse {
         return runBlocking {
             apiClient.getUserProfileById(username)
         }
