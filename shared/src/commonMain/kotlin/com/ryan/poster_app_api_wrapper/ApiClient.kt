@@ -15,7 +15,7 @@ import kotlinx.serialization.json.Json
 @Serializable
 data class ErrorResponse(val error: String)
 
-class ApiClient(private var authToken: String? = null) {
+open class ApiClient(private var authToken: String? = null) {
     private val client = HttpClient(httpClientEngineFactory()) {
         install(ContentNegotiation) {
             json(Json {
