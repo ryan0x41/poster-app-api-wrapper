@@ -30,6 +30,7 @@ data class HomeFeedUserProfile(
     val username: String,
     val email: String,
     val accountCreation: Long,
+    val profileImageUrl: String? = null,
     val followers: List<HomeFeedUserSummary> = emptyList(),
     val following: List<HomeFeedUserSummary> = emptyList(),
     val posts: List<HomeFeedPostSummary> = emptyList(),
