@@ -21,7 +21,7 @@ data class HomeFeedPost(
     val likes: Int,
     val likedBy: List<String>,
     val images: List<String>,
-    val userProfile: FullUserProfile
+    val userProfile: HomeFeedUserProfile
 )
 
 @Serializable
@@ -33,7 +33,7 @@ data class HomeFeedUserProfile(
     val followers: List<HomeFeedUserSummary> = emptyList(),
     val following: List<HomeFeedUserSummary> = emptyList(),
     val posts: List<HomeFeedPostSummary> = emptyList(),
-    val listeningHistory: List<FullListeningHistoryItem> = emptyList(),
+    val listeningHistory: List<HomeFeedListeningHistoryItem> = emptyList(),
     val favouriteArtists: List<HomeFeedArtist> = emptyList(),
     val currentlyPlaying: FullCurrentlyPlaying? = null
 )

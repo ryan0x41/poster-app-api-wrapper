@@ -71,6 +71,12 @@ class ApiClientTest {
         }
     }
 
+    fun testGetUserHomeFeed() {
+        return runBlocking {
+            apiClient.getHomeFeed()
+        }
+    }
+
     @Test
     fun testAll() {
         // Step 1: login as test2
@@ -89,5 +95,9 @@ class ApiClientTest {
         // Step 4: start conversation with 0xryan
         val participantIds = listOf(ryanUserId)
         testStartConversation(participantIds)
+
+        // Step 5: get home feed
+        val homeFeed = testGetUserHomeFeed()
+        println("homefeed: $homeFeed")
     }
 }
