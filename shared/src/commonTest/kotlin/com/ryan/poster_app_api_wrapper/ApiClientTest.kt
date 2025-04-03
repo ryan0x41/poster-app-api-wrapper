@@ -77,27 +77,43 @@ class ApiClientTest {
         }
     }
 
+    fun testGetAuthenticatedUser() {
+        return runBlocking {
+            val data = apiClient.getAuthenticatedUser()
+            println(data)
+        }
+    }
+
     @Test
-    fun testAll() {
-        // Step 1: login as test2
-        val loginResponse = testLogin("test2", "Hello@123")
+    fun testFullFlow(): Unit {
+        runBlocking {
+            // Step 1: Login as "test2"
+            val loginResponse = apiClient.login("test2", "Hello@123")
+            println("Login Response: $loginResponse")
+            assertNotNull(loginResponse, "Login response should not be null")
 
-        // Step 2: authenticate to get current user ID
-        val authResponse = testAuth()
-        val myUserId = authResponse.user.id
-        println("Authenticated user ID: $myUserId")
+            // Step 2: Authenticate to get current user info
+            val authResponse = apiClient.auth()
+            println("Auth Response: $authResponse")
+            assertNotNull(authResponse, "Auth response should not be null")
 
-        // Step 3: get user profile of 0xryan
-        val ryanProfile = testGetUserProfileByUsername("0xryan")
-        val ryanUserId = ryanProfile.user.id
-        println("0xryan's user ID: $ryanUserId")
+            val myUserId = authResponse.user.id
+            println("Authenticated User ID: $myUserId")
 
-        // Step 4: start conversation with 0xryan
-        val participantIds = listOf(ryanUserId)
-        testStartConversation(participantIds)
+            // Step 3: Retrieve the home feed
+            val homeFeed = apiClient.getHomeFeed()
+            println("Home Feed: $homeFeed")
+            assertNotNull(homeFeed, "Home feed should not be null")
 
-        // Step 5: get home feed
-        val homeFeed = testGetUserHomeFeed()
-        println("homefeed: $homeFeed")
+            // Step 4: Retrieve the authenticated user details
+            val authenticatedUser = apiClient.getAuthenticatedUser()
+            println("Authenticated User: $authenticatedUser")
+            assertNotNull(authenticatedUser, "Authenticated user should not be null")
+
+            // Step 5: Fetch the user profile using the authenticated user's ID
+            val userProfileResponse = apiClient.getUserProfileById(myUserId)
+            println("User Profile: $userProfileResponse")
+            assertNotNull(userProfileResponse, "User profile should not be null")
+        }
     }
 }

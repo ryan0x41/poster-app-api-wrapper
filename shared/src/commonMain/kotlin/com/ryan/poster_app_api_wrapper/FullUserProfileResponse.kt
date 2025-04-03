@@ -15,7 +15,7 @@ data class FullUserProfile(
     val email: String,
     val profileImageUrl: String,
     val accountCreation: Long,
-    val isAdmin: Boolean,
+    val isAdmin: Boolean? = null,
     val followers: List<FullFollower>,
     val following: List<FullFollowing>,
     val posts: List<FullPost>,

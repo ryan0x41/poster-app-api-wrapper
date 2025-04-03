@@ -87,7 +87,7 @@ open class ApiClient(private var authToken: String? = null, private var authenti
     }
 
     suspend fun getUserProfileById(userId: String): FullUserProfileResponse {
-        return client.get("https://api.poster-social.com/user/profile/${userId}").body()
+        return client.get("https://api.poster-social.com/user/profile/id/${userId}").body()
     }
 
     suspend fun getUserProfile(username: String): FullUserProfileResponse {
