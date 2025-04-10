@@ -22,19 +22,19 @@ class ApiClientTest {
             assertNotNull(data, "response should not be null")
         }
     }
-
+    //login testing method
     fun testLogin(username: String, password: String): LoginResponse {
         return runBlocking {
             apiClient.login(username, password)
         }
     }
-
+    //authentication test method
     fun testAuth(): AuthResponse {
         return runBlocking {
             apiClient.auth()
         }
     }
-
+    //register test method
     fun testRegister() {
         runBlocking {
             val data = apiClient.register("newaccount32131213", "emails@something.com", "Hello@123")
@@ -43,40 +43,40 @@ class ApiClientTest {
             println("User: ${data.user}")
         }
     }
-
+    //start conversation test method
     fun testStartConversation(participantIds: List<String>) {
         runBlocking {
             val data = apiClient.startConversation(participantIds)
             println("startConversation message: ${data.message}")
         }
     }
-
+    //conversation test method
     fun testGetConversations() {
         runBlocking {
             val data = apiClient.getConversations()
             println("data: $data")
         }
     }
-
+    //user profile id test method
     fun testGetUserProfileById(userId: String) {
         runBlocking {
             val data = apiClient.getUserProfileById(userId)
             println("data: $data")
         }
     }
-
+    //user profile username test method
     fun testGetUserProfileByUsername(username: String): FullUserProfileResponse {
         return runBlocking {
             apiClient.getUserProfileById(username)
         }
     }
-
+    //user home feed test method
     fun testGetUserHomeFeed() {
         return runBlocking {
             apiClient.getHomeFeed()
         }
     }
-
+    //user authentication test method
     fun testGetAuthenticatedUser() {
         return runBlocking {
             val data = apiClient.getAuthenticatedUser()
